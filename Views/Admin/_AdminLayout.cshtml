@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/common.css" rel="stylesheet" />
+
+    <!-- jQuery (must be before Bootstrap JS) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+    
+
+</head>
+<body ng-app="adminApp" ng-controller="MainController">
+
+
+    <div class="sidebar">
+        <h2 class="text-center">Admin</h2>
+        <a href="~/Admin/Dashboard" class="nav-link" data-page="dashboard">Dashboard</a>
+        <a href="~/Admin/CategoryMaster" class="nav-link" data-page="categorymaster">Category Master</a>
+        <a href="~/Admin/UserMaster" class="nav-link" data-page="categorymaster">User Master</a>
+        <a href="~/Admin/Products" class="nav-link" data-page="Products">Products Master</a>
+        <a href="#">Settings</a>
+        <a href="#">Logout</a>
+    </div>
+
+
+    <div class="main-content">
+        <div class="header">
+            <h3>Dashboard</h3>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    User
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="userMenu">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        @RenderBody()
+        
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    @* <script src="~/js/angular.min.js"></script> *@
+    <script src="~/js/app.js"></script>  <!-- Load the app first -->
+    <script src="~/js/admin.js"></script> <!-- Then load additional controllers -->
+
+	
+
+</body>
+</html>

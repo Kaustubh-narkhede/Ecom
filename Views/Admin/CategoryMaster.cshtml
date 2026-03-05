@@ -1,0 +1,70 @@
+﻿@{
+	ViewData["Title"] = "CategoryMaster";
+	Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+<div ng-controller="CategoryMaster">
+	<h2>{{ message }}</h2>
+	<div class="mb-3">
+		<input type="text" class="form-control d-inline-block w-auto" placeholder="Search..." ng-model="searchQuery">
+		<button class="btn btn-primary" ng-click="search()">Search</button>
+		<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add</button>
+	</div>
+	<div>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Category ID</th>
+					<th>Sub Category ID</th>
+					<th>Category Name</th>
+					<th>Description</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="category in categories">
+					<td>{{ category.Cat_Id }}</td>
+					<td>{{ category.SubCatId }}</td>
+					<td>{{ category.CatName }}</td>
+					<td>{{ category.Description }}</td>
+					<td>
+						<button class="btn btn-primary" ng-click="EditParentCat(category);"><i class="fa fa-edit"></i></button>
+						<button class="btn btn-danger" ng-click="DetetepParentCat(category);"><i class="fa fa-trash"></i> </button>
+					</td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="addCategoryLabel">Add Category</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row  form-control">
+						<div class="col-md-12">
+							<label for="categoryName" class="form-label">Category Name</label>
+							<input type="text" class="form-control" id="categoryName" ng-model="categoryname">
+						</div>
+						<div class="col-md-12">
+							<label for="description" class="form-label">Description</label>
+							<input type="text" class="form-control" id="description" ng-model="description">
+						</div>
+						<div class="col-md-12">
+							<label for="sortorder" class="form-label">Sort Order</label>
+							<input type="number" class="form-control" id="sortorder" ng-model="sortorder">
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" ng-click="AddCategory()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

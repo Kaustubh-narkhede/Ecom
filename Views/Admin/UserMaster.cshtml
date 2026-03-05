@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "UserMaster";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<h1>User</h1>
+<div ng-controller="UserMaster">
+    <h2>{{ message }}</h2>
+    <div class="mb-3">
+        <input type="text" class="form-control d-inline-block w-auto" placeholder="Search..." ng-model="searchQuery">
+        <button class="btn btn-primary" ng-click="GetData()">Search</button>
+        <button class="btn btn-success" ng-click="AddUser()" >Add</button>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead> 
+                <tr>
+                    <th>First Name</th>
+                    <th>Lsat Name</th>
+                    <th>Email</th>
+                    <th>MobileNo</th>
+                    <th>Address</th>
+                    <th>Pincode</th>
+                    <th>Country</th>
+                    <th>Sortorder</th>
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="User in User">
+                    <td>{{ User.FirstName }}</td>
+                    <td>{{ User.LastName }}</td>
+                    <td>{{ User.EmailId }}</td>
+                    <td>{{ User.MobileNo }}</td>
+                    <td>{{ User.Add1 }} {{ User.Add2 }} {{ User.Add3 }}</td>
+                    <td>{{ User.Pincode }}</td>
+                    <td>{{ User.Country }}</td>
+                    <td>{{ User.Sortorder }}</td>
+
+
+                    <td>
+                        <button class="btn btn-primary" ng-click="EditUser(User);"> <i class="fa fa-edit"></i> </button>
+                        @*  <button class="btn btn-danger" ng-click="DeleteUser(User);"><i class="fa fa-trash"></i> Delete</button> *@
+
+                        <button class="btn btn-danger" ng-click="DeleteUser(User);">
+                            <i class="fa fa-trash"></i> 
+                        </button>
+                        <button class="btn" ng-class="User.IsActive == 1 ? 'btn-warning' : 'btn-success'"
+                                ng-click="ToggleUserStatus(User);">
+                            <i class="{{User.IsActive == 1 ? 'fa fa-toggle-on' : 'fa fa-toggle-off'}}"></i>
+                           @*  {{User.IsActive == 1 ? 'Deactivate' : 'Activate'}}  *@
+                        </button>
+
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserLabel">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row  form-control">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="UserFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="UserFirstName" ng-model="UserFirstName">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="UserLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="UserLastName" ng-model="UserLastName">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="UserEmailid" class="form-label">Email Id</label>
+                                <input type="text" class="form-control" id="UserEmailid" ng-model="UserEmailid">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="UserMobileNo" class="form-label">Mobile No</label>
+                                <input type="text" class="form-control" id="UserMobileNo" ng-model="UserMobileNo">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="UserAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="UserAddress" ng-model="UserAddress">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="UserAddress1" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="UserAddress1" ng-model="UserAddress1">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="UserCountry" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="UserCountry" ng-model="UserCountry">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Userstate" class="form-label">State</label>
+                                <input type="text" class="form-control" id="Userstate" ng-model="Userstate">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="UserCity" class="form-label">City</label>
+                                <input type="text" class="form-control" id="UserCity" ng-model="UserCity">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="UserPincode" class="form-label">Pincode</label>
+                                <input type="text" class="form-control" id="UserPincode" ng-model="UserPincode">
+                            </div>
+
+                           @*  <div class="col-md-6">
+                                <label for="Usersortorder" class="form-label">Sort Order</label>
+                                <input type="number" class="form-control" id="Usersortorder" ng-model="Usersortorder">
+                            </div> *@
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="SaveUser()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

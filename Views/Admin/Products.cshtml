@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewData["Title"] = "Product";
+    Layout = "~/Views/Admin/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<h1>Products Master</h1>
+<div ng-controller="Product">
+    <h2>{{ message }}</h2>
+    <div class="mb-3">
+        <input type="text" class="form-control d-inline-block w-auto" placeholder="Search..." ng-model="searchQuery">
+        <button class="btn btn-primary" ng-click="GetData()">Search</button>
+        <button class="btn btn-success" ng-click="AddUser()">Add</button>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Type</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Brand</th>
+                    <th>Unit</th>
+                    <th>Tags</th>
+                    <th>Exchangeable</th>
+                    <th>Refundable</th>
+                    <th>Product Description</th>
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in Product">
+                    <td>{{ p.Product_Name }}</td>
+                    <td>{{ p.Product_Type }}</td>
+                    <td>{{ p.Category_id }}</td>
+                    <td>{{ p.Subcategory }}</td>
+                    <td>{{ p.Brand }}</td>
+                    <td>{{ p.Unit }}</td>
+                    <td>{{ p.Tags }}</td>
+                    <td>{{ p.Exchangeable }}</td>
+                    <td>{{ p.Refundable }}</td>
+                    <td>{{ p.Product_Description }}</td>
+                   
+
+
+                    <td>
+                        <button class="btn btn-primary" ng-click="EditUser(Product);"> <i class="fa fa-edit"></i> </button>
+                        @*  <button class="btn btn-danger" ng-click="DeleteUser(User);"><i class="fa fa-trash"></i> Delete</button> *@
+
+                        <button class="btn btn-danger" ng-click="DeleteUser(Product);">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <button class="btn" ng-class="User.IsActive == 1 ? 'btn-warning' : 'btn-success'"
+                                ng-click="ToggleUserStatus(Product);">
+                            <i class="{{Product.IsActive == 1 ? 'fa fa-toggle-on' : 'fa fa-toggle-off'}}"></i>
+                            @*  {{User.IsActive == 1 ? 'Deactivate' : 'Activate'}}  *@
+                        </button>
+
+
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- Modal -->
+    <style>
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                transition: 0.4s;
+                border-radius: 50%;
+            }
+
+        input:checked + .slider {
+            background-color: #009688; /* teal green */
+        }
+
+            input:checked + .slider:before {
+                transform: translateX(26px);
+                
+            }
+    </style>
+
+
+    <div class="modal fade" id="addProduct" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUserLabel">Add User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row  form-control">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="ProductName" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="ProductName" ng-model="ProductName">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="ProductType" class="form-label">Product Type</label>
+                                <select type="text" class="form-control" id="ProductType" ng-model="ProductType">
+                                    <option value="0">--select--</option>
+                                    <option value="1">Simple</option>
+                                    <option value="2">Classified</option>
+                                </select>
+                            </div>
+                            
+                          @*   <div class="col-md-6">
+                                <label for="ddlcategory" class="form-label">Category</label>
+                                <select type="text" class="form-control" id="ddlcategory" ng-model="ddlcategory">
+                                    <option value="0">--select--</option>
+                                
+                                </select>
+                            </div> *@
+                            <div class="col-md-6">
+                                <label for="ddlcategory" class="form-label">Category</label>
+                                <select class="form-control" id="ddlcategory" ng-model="ddlcategory">
+                                    <option value="0">--Select--</option>
+                                    <option ng-repeat="c in CategoryList" value="{{c[1]}}">
+                                        {{c[2]}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ddlSubcategory" class="form-label">Subcategory</label>
+                                <select type="text" class="form-control" id="ddlSubcategory" ng-model="ddlSubcategory">
+                                    <option value="0">--select--</option>
+                                    <option value="1">Ethnic Wear</option>
+                                    <option value="2">Women Western Wear</option>
+                                    <option value="3">Sandels</option>
+                                    <option value="4">Shoes</option>
+                                    <option value="5">Beauty & Grooming</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="ddlBrand" class="form-label">Brand</label>
+                                <select type="text" class="form-control" id="ddlBrand" ng-model="ddlBrand">
+                                    <option value="0">--select--</option>
+                                    <option value="1">Puma </option>
+                                    <option value="2">HRX </option>
+                                    <option value="3">Roadster </option>
+                                    <option value="4">Zara</option>                                   
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="ddlUnits" class="form-label">Unit</label>
+                                <select type="text" class="form-control" id="ddlUnits" ng-model="ddlUnits">
+                                    <option value="0">--select--</option>
+                                    <option value="1">Kilogram</option>
+                                    <option value="2">Pieces</option>
+                                                                     
+                                </select>
+                            </div>
+                            <div class="col-md-6" style="margin-top: 36px;">
+                                Exchangeable
+                                <label class="switch">
+                                    <input type="checkbox" ng-model="Exchangeable" />
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-6" style="margin-top: 36px;">
+                                Refundable
+                                <label class="switch">
+                                    <input type="checkbox" ng-model="Refundable" />
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label for="Description" class="form-label"><b>Description</b></label>
+                                <input type="text" class="form-control" id="Description" ng-model="Description">
+                            </div>
+
+                           
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="SaveProduct()">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
